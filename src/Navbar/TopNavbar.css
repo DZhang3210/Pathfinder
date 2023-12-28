@@ -1,0 +1,26 @@
+.top-navbar {
+    background-color: #7d7676; /* Dark background */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    gap: 1rem
+}
+
+.top-nav-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.top-nav-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 1rem;
+
+}
+
+.top-nav-links a:hover {
+    text-decoration: underline;
+}

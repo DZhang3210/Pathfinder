@@ -1,0 +1,44 @@
+.grid-node {
+    width: 30px;  /* Width of each grid block */
+    height: 30px; /* Height of each grid block */
+    border: 1px solid #999; /* Border for each grid block */
+    box-sizing: border-box; /* Ensures the border is included in the width/height */
+    transition: transform 0.1s, z-index 0.1s;
+    transition: background-color 0.2s ease;
+}
+.grid-node:hover{
+    background-color:black;
+    transform: scale(1.2);
+    z-index: 1;
+}
+
+#empty {
+    background-color: #ffffff; /* Background color of the grid block */
+}
+#fill-node{
+    background-color:black;
+}
+
+#start-node{
+    background-color: red; /* Background color of the grid block */
+}
+
+#end-node{
+    background-color: green; /* Background color of the grid block */
+}
+
+#bomb{
+    background-color: magenta;
+}
+
+#potential{
+    background-color:rgb(107, 107, 248);
+}
+
+#checked{
+    background-color:blue;
+}
+
+#path{
+    background-color: yellow;
+}
