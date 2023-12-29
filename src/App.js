@@ -3,6 +3,7 @@ import PathfindingVisualizer from './PathfindingVisualizer/PathfindingVisualizer
 import Navbar from './Navbar/Navbar.js';
 import { createContext, useState, useEffect} from 'react';
 import TopNavbar from './Navbar/TopNavbar.js';
+import GridLegend from './Navbar/GridLegend.js';
 export const UserContext = createContext(null)
 function App() {
   const [insert, setInsert] = useState ("wall")
@@ -34,6 +35,7 @@ function App() {
 
         <TopNavbar></TopNavbar>
         <Navbar></Navbar> 
+        <GridLegend/>
         <PathfindingVisualizer></PathfindingVisualizer>
       </div>
     </UserContext.Provider>

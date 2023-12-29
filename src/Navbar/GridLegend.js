@@ -1,0 +1,29 @@
+import React from 'react';
+import './GridLegend.css';
+
+const GridLegend = () => {
+    return (
+        <div className = "legend-wrapper">
+        <div className="grid-legend">
+            <div className="legend-item">
+                <div className="legend-color start"></div>
+                <div className="legend-label">Start (Red)</div>
+            </div>
+            <div className="legend-item">
+                <div className="legend-color end"></div>
+                <div className="legend-label">End (Green)</div>
+            </div>
+            <div className="legend-item">
+                <div className="legend-color wall"></div>
+                <div className="legend-label">Wall (Black)</div>
+            </div>
+            <div className="legend-item">
+                <div className="legend-color empty"></div>
+                <div className="legend-label">Empty (White)</div>
+            </div>
+        </div>
+        </div>
+    );
+};
+
+export default GridLegend;

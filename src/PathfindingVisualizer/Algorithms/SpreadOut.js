@@ -62,15 +62,14 @@ export const SpreadOut = async (cRow, cCol, nodes, height, width, setCellValue) 
     var queue = new PriorityQueue();  // Initialize an empty priority queue
     queue.add([0, cRow, cCol]);  // Add the starting position to the queue
 
-    let array = Array.from({ length: height }, () => Array.from({ length: width }, () => -1));
-    const dirs = [[-1,-1],[-1,0],[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1]]
+    let array = Array.from({ length: height }, () => Array.from({ length: width }, () => []));
+    const dirs = [[-1,0],[0,1],[1,0],[0,-1]]
     let found = null;
 
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     while (!queue.isEmpty()) {
         var [i, r, c] = queue.poll();  // Correctly poll the queue
-        array[r][c] = i;
         
         if (r !== cRow || c !== cCol) setCellValue(r, c, "checked");
         
@@ -84,39 +83,30 @@ export const SpreadOut = async (cRow, cCol, nodes, height, width, setCellValue) 
             if (newR >= 0 && newR < height && newC >= 0 && newC < width) {
                 if (nodes[newR][newC][2] === "end-node") {
                     found = [newR, newC];
-                    array[newR][newC] = i + 1;
+                    array[newR][newC] = [r, c];
                     break;  // Break out of the loop once the end node is found
                 } else if (nodes[newR][newC][2] === "empty" && nodes[newR][newC][0] === false) {
-                    queue.add([i + 1, newR, newC]);
+                    if(Math.abs(dirs[0]) + Math.abs(dirs[1]) === 2) queue.add([i+1.4, newR, newC])
+                    else queue.add([i + 1, newR, newC]);
+                    array[newR][newC] = [r, c];
                     nodes[newR][newC][0] = true;
                     setCellValue(newR, newC, "potential")
                 }
             }
         }
-
         if (found !== null) {
-            let current = array[found[0]][found[1]] - 1;
-            let pathR = found[0];
-            let pathC = found[1];
-
-            while (current !== 0) {
-                for (const [lr, ud] of dirs) {
-                    const newR = pathR + lr;
-                    const newC = pathC + ud;
-
-                    if (newR >= 0 && newR < height && newC >= 0 && newC < width) {
-                        if (array[newR][newC] === current) {
-                            setCellValue(newR, newC, "path");
-                            await delay(100);
-                            pathR = newR;
-                            pathC = newC;
-                            current -= 1;
-                            break;  // Breaks the inner for...of loop
-                        }
-                    }
+            let [r,c] = [found[0], found[1]]
+            while (nodes[r][c][2] !== "start-node"){
+                const [nextR, nextC] = array[r][c]
+                await delay(100)
+                if (nodes[nextR][nextC][2] === "start-node"){
+                    console.log("Break");
+                    return;
+                }else{
+                    [r,c] = [nextR, nextC]
+                    setCellValue(nextR, nextC, "path")
                 }
             }
-            break;  // Exit the while loop after tracing the path
         }
     }
     return false

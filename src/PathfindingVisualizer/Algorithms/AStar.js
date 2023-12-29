@@ -1,5 +1,5 @@
 class PriorityQueue {
-    constructor(comparator = (a, b) => a[0] < b[0] || (a[0] === b[0] && a[1]<b[1])) {
+    constructor(comparator = (a, b) => a[0] < b[0] || (a[0] === b[0] && a[1]<=b[1])) {
         this.items = [];
         this.comparator = comparator;
     }
@@ -57,12 +57,13 @@ class PriorityQueue {
 }
 
 
+
 const distanceFrom = (sPoint, ePoint) =>{
     let total = 0;
     let xDiff = Math.abs(sPoint[0]  - ePoint[0])
     let yDiff = Math.abs(sPoint[1] - ePoint[1])
     while (xDiff > 0 && yDiff > 0){
-        total += 14
+        total += 14;
         xDiff -= 1;
         yDiff -= 1;
     }
@@ -71,40 +72,50 @@ const distanceFrom = (sPoint, ePoint) =>{
 }
 
 export const AStar = async (eRow, eCol, cRow, cCol, height, width, nodes, setCellValue) => {
-    //console.log("Hello");
     const dirs = [[-1,-1],[-1,0],[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1]]
-    let array = Array.from({ length: height }, () => Array.from({ length: width }, () => []));
+    let array = Array.from({ length: height }, () => Array.from({ length: width }, () => [-1,-1,-1]));
     var queue = new PriorityQueue();
     queue.add([0,0,cRow, cCol])
     let found = false;
 
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     while (!queue.isEmpty() && found === false){
-
-        //console.log(queue)
         const [index, m, r,c] = queue.poll();
-        console.log("next chose is " +index+ " (" +r+","+c+") ")
+        nodes[r][c][0] = true        
         if (r !== cRow || c !== cCol) setCellValue(r, c, "checked");
         await delay(10)
 
         for (const [lr, ud] of dirs){
-            const newR = r+lr;
-            const newC = c + ud;
+            const newR = r+lr, newC = c + ud;
             if (newR >= 0 && newR < height && newC >= 0 && newC < width){
                 if (nodes[newR][newC][2] === "end-node"){
-                    array[newR][newC] = [r, c] 
+                    array[newR][newC] = [0,r, c] 
                     found = true;
                     break;
-                }else if (nodes[newR][newC][2] === "empty" && nodes[newR][newC][0] === false){
-                    console.log("checking (" +newR+","+newC+") has value of " + (distanceFrom([newR, newC], [eRow, eCol]) 
-            + distanceFrom([newR, newC], [cRow, cCol])))
-                    let eVal = distanceFrom([newR, newC], [eRow, eCol])
-                    let sVal = distanceFrom([newR, newC], [cRow, cCol])
-                    const val = (eVal + sVal);
-                    nodes[newR][newC][0] = true
-                    array[newR][newC] = [r, c]
-                    queue.add([val, eVal, newR, newC])
-                    setCellValue(newR, newC, "potential")
+                }else if (nodes[newR][newC][2] === "start-node" || nodes[newR][newC][2] === "fill-node"){
+                    continue
+                }
+                else if (nodes[newR][newC][0] === false){
+            //         console.log("checking (" +newR+","+newC+") has value of " + (distanceFrom([newR, newC], [eRow, eCol]) 
+            // + distanceFrom([newR, newC], [cRow, cCol])))
+                    if (array[newR][newC][0] === -1){
+                        let eVal = distanceFrom([newR, newC], [eRow, eCol])
+                        let sVal = distanceFrom([newR, newC], [cRow, cCol])
+                        const val = (eVal + sVal);
+                        if((Math.abs(lr) + Math.abs(ud))=== 2){
+                            array[newR][newC] = [array[r][c][0]+14, r, c];
+                        }
+                        else{
+                            array[newR][newC] = [array[r][c][0]+10, r, c];
+                        }
+                        queue.add([val, eVal, newR, newC]);
+                        setCellValue(newR, newC, "potential");
+                    }else if((Math.abs(lr) + Math.abs(ud)) === 2 && array[r][c][0] + 14 < array[newR][newC][0]){
+
+                        array[newR][newC] = [array[r][c][0]+14, r, c];
+                    }else if ((Math.abs(lr) + Math.abs(ud)) === 1 && array[r][c][0] + 10 < array[newR][newC][0]){
+                        array[newR][newC] = [array[r][c][0]+10, r, c];
+                    }
                 }
             }
         }
@@ -112,7 +123,7 @@ export const AStar = async (eRow, eCol, cRow, cCol, height, width, nodes, setCel
         {
             let [r,c] = [eRow, eCol]
             while (nodes[r][c][2] !== "start-node"){
-                const [nextR, nextC] = array[r][c]
+                const [i, nextR, nextC] = array[r][c]
                 await delay(100)
                 if (nodes[nextR][nextC][2] === "start-node"){
                     break;

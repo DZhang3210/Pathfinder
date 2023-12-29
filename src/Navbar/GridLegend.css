@@ -1,0 +1,45 @@
+.grid-legend {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+.legend-wrapper{
+    background-color:#3673b5;
+    height: 55px;
+    width: 100%;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+}
+
+.start {
+    background-color: red;
+}
+
+.end {
+    background-color: green;
+}
+
+.wall {
+    background-color: black;
+}
+
+.empty {
+    background-color: white;
+}
+
+.legend-label {
+    font-size: 14px;
+    color:black;
+}

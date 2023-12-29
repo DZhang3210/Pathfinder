@@ -26,7 +26,7 @@ const PathfindingVisualizer = () => {
     // const cols = 40;
 
     const [sp, setSP] = useState([10, 10]) // Start position
-    const [ep, setEP] = useState([5, 5]); // End position
+    const [ep, setEP] = useState([5, 20]); // End position
     const {insert, setInsert, Algo, triggerAlgo, mouseIsDown}  = useContext(UserContext)
 
     //Starting
@@ -57,6 +57,9 @@ const PathfindingVisualizer = () => {
         
  
     const [nodes, modifyNodes] = useState(createGrid); 
+    const modifyGrid = async (grid) => {
+        modifyNodes(grid)
+    }
     const createWGrid = () => {
         return Array.from({ length: rows }, (_, row) =>
             Array.from({ length: cols }, (_, col) => (
@@ -99,38 +102,44 @@ const PathfindingVisualizer = () => {
             });
         };
 
-    const {running, setRunning} = useState(false)
+    const [running, setRunning] = useState(false)
     const isInitialMount = useRef(true)
     useEffect(() => {
+        const runAlgorithm = async () =>{
         if (isInitialMount.current){
             isInitialMount.current = false;
-        }else{
+        }else if (!running){
             switch(Algo){
                 case 0:
-                    modifyNodes(createGrid)
+                    setRunning(true);
+                    modifyGrid(createGrid)
+                    setRunning(false);
                     triggerAlgo(-1)
                     break;
                 case 1:
-                    modifyNodes(createWGrid)
+                    setRunning(true);
+                    modifyGrid(createWGrid)
+                    setRunning(false)
                     triggerAlgo(-1)
                     break;
                 case 2:
-                    //setRunning(true)
-                    SpreadOut(sp[0], sp[1], nodes, rows, cols, setCellValue)
-                    //setRunning(true)
+                    setRunning(true)
+                    await SpreadOut(sp[0], sp[1], nodes, rows, cols, setCellValue)
+                    setRunning(false)
+                    triggerAlgo(-1)
                     break;
                 case 3:
-                    //setRunning(false)
-                    AStar(ep[0], ep[1], sp[0], sp[1], rows, cols, nodes, setCellValue) 
-                    //setRunning(true)
+                    setRunning(true)
+                    await AStar(ep[0], ep[1], sp[0], sp[1], rows, cols, nodes, setCellValue) 
+                    setRunning(false)
+                    triggerAlgo(-1)
+                    break;
                 default:
                     break;
             
-            }
-            //SpreadOut(sp[0], sp[1], nodes, rows, cols, setCellValue)
-        }
-        //console.log("Hey, you there");
-    }, [Algo]
+            }}}
+        runAlgorithm();
+    }, [Algo, setRunning]
     )
 
     //Trying to get dynamic graph
