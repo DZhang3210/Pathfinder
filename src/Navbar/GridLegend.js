@@ -1,9 +1,11 @@
 import React from 'react';
 import './GridLegend.css';
+import { useTutorialContext } from '../hooks/useTutorial';
 
 const GridLegend = () => {
+    const {stage} = useTutorialContext()
     return (
-        <div className = "legend-wrapper">
+        <div className = "legend-wrapper"id = {stage===3 ? 'highlight': ''}>
         <div className="grid-legend">
             <div className="legend-item">
                 <div className="legend-color start"></div>

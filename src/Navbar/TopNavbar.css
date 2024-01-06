@@ -41,3 +41,11 @@
 .top-nav-link:active {
     transform: scale(0.95); /* Slightly smaller when clicked */
 }
+
+
+#highlight{
+    position: relative;
+    z-index: 1000;
+    transition: background-color 0.5s;
+    background-color: rgb(58, 190, 251);
+}

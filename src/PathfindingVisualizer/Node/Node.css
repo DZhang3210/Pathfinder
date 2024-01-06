@@ -20,11 +20,11 @@
 }
 
 #start-node{
-    background-color: red; /* Background color of the grid block */
+    background-color: green; /* Background color of the grid block */
 }
 
 #end-node{
-    background-color: green; /* Background color of the grid block */
+    background-color: red; /* Background color of the grid block */
 }
 
 #bomb{

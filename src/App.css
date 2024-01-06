@@ -40,3 +40,63 @@
     transform: rotate(360deg);
   }
 }
+
+
+.tutorial {
+  /* Full viewport coverage */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  /* Flexbox for centering inner content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* Optional: Background styling for overlay */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  z-index: 10; /* Ensure it's above other content */
+}
+
+.reminder_box {
+  width: 50%;
+  max-width: 450px;
+  margin: auto;
+  padding: 20px;
+  background-color: white;
+  background-image: linear-gradient(to top, #f9f9f9, #fff); /* Subtle gradient background */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 8px; /* Rounded corners */
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for hover effect */
+}
+
+.reminder_box:hover {
+  transform: translateY(-5px); /* Slight lift on hover */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6); /* Increased shadow on hover */
+}
+
+.reminder_box h3 {
+  margin: 10px 0;
+  font-size: 1.5rem; /* Adjusted font size */
+  color: #333; /* Darker color for better readability */
+  font-weight: 600; /* Making the title bold */
+}
+
+.reminder_box p {
+  margin: 10px 0;
+  font-size: 1rem;
+  color: #555; /* Slightly lighter color for the paragraph */
+  line-height: 1.5; /* Improved line spacing for readability */
+}
+
+.reminder_box img {
+  max-width: 100%; /* Ensures the image is no wider than the box */
+  height: auto; /* Maintains the aspect ratio of the image */
+  display: block; /* Removes default inline behavior, fixing issues with extra space below image */
+  margin: 0 auto; /* Centers the image within the box */
+}
+

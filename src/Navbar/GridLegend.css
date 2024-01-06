@@ -24,11 +24,11 @@
 }
 
 .start {
-    background-color: red;
+    background-color: green;
 }
 
 .end {
-    background-color: green;
+    background-color: red;
 }
 
 .wall {
@@ -42,4 +42,9 @@
 .legend-label {
     font-size: 14px;
     color:black;
+}
+#highlight{
+    position: relative;
+    z-index: 1000;
+    /* border:red solid; */
 }
